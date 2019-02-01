@@ -1,9 +1,29 @@
 from numpy import *
 
-
+def compute_error_for_given_points(b, m, points):
+	totalError = 0
+	for i in range(0,len(points)):
+		x = points[i, 0]
+		y = points[i, 1]
+		totalError += (y - (m * x + b)) **2
+	return totalError / (float)(len(points))
 
 def step_gradient(b_current, m_current, learning_rate):
 	#gradient descent 
+	b_gradient = 0
+	m_gradient = 0
+	N = float(len(points))
+	for i in range(0,len(points)):
+		x = points[i, 0]
+		y = points[i, 1]
+		b_gradient += (-1 * (y - (m_current * x + b_current)))
+		m_gradient += (-x * (y - (m_current * x + b_current)))
+	b_gradient *= (2/N)
+	m_gradient *= (2/N)
+	new_b = b_current - (learning_rate * b_gradient)
+	new_m = m_current - (learning_rate * m_gradient)
+	return [new_b, new_m]
+
 
 def gradient_descent_runner(points, starting_b, starting_m, learning_rate, num_iterations):
 	b = starting_b
@@ -28,6 +48,5 @@ def run():
 	print(b)
 	print(m)
 
-
-if_name_ = '_main_':
+if _name_ == '_main_':
 	run()
